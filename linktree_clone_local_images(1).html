@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hugo Lopes | Links</title>
+<style>
+  :root {
+    --bg-top: #0f172a;
+    --bg-bottom: #020617;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent: #38bdf8;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; }
+  
+  html, body {
+    margin: 0; padding: 0; min-height: 100vh;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, var(--bg-top), var(--bg-bottom));
+    color: var(--text-main);
+    display: flex;
+    justify-content: center;
+    padding: 60px 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--card-border);
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  .name {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  .bio {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin: 0 0 32px;
+    line-height: 1.5;
+  }
+
+  .links {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 16px 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    color: var(--text-main);
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .link-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2), 0 0 15px rgba(56, 189, 248, 0.2);
+  }
+
+  .link-icon-img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .link-icon-txt {
+    font-size: 20px;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+</style>
+</head>
+<body>
+
+  <div class="page" id="app"></div>
+
+<script>
+  const CONFIG = {
+    profile: {
+      name: "Hugo Lopes",
+      bio: "Estudante de Computação | Desenvolvedor Java & C",
+      // Para usar uma foto local, coloque o nome do arquivo aqui (ex: "perfil.jpg").
+      // Se deixar vazio "", ele usará as iniciais.
+      avatarImage: "perfil.jpg", 
+      initials: "HL"
+    },
+    links: [
+      {
+        label: "GitHub / Portfólio",
+        url: "https://github.com/",
+        // Para usar uma imagem local como ícone, coloque o nome do arquivo aqui (ex: "github.png").
+        iconImage: "icone-github.png", 
+        // Fallback caso não tenha imagem
+        icon: "💻" 
+      },
+      {
+        label: "LinkedIn",
+        url: "https://linkedin.com/",
+        iconImage: "icone-linkedin.png",
+        icon: "🔗"
+      },
+      {
+        label: "Loja de Peças - Mercado Livre",
+        url: "https://mercadolivre.com.br/",
+        iconImage: "icone-ml.png",
+        icon: "📦"
+      },
+      {
+        label: "Loja - Shopee",
+        url: "https://shopee.com.br/",
+        iconImage: "shopee.png",
+        icon: "🛒"
+      },
+      {
+        label: "WhatsApp / Contato",
+        url: "tel:+5531988423387",
+        iconImage: "whatsapp.png",
+        icon: "📱"
+      }
+    ]
+  };
+
+  function renderApp() {
+    const app = document.getElementById('app');
+    const p = CONFIG.profile;
+
+    // Avatar
+    const avatar = document.createElement(p.avatarImage ? 'img' : 'div');
+    avatar.className = 'avatar';
+    if (p.avatarImage) {
+      avatar.src = p.avatarImage;
+      avatar.alt = p.name;
+    } else {
+      avatar.textContent = p.initials;
+    }
+    app.appendChild(avatar);
+
+    // Name & Bio
+    app.innerHTML += `<h1 class="name">${p.name}</h1>`;
+    app.innerHTML += `<p class="bio">${p.bio}</p>`;
+
+    // Links Container
+    const linksDiv = document.createElement('div');
+    linksDiv.className = 'links';
+
+    CONFIG.links.forEach(link => {
+      const a = document.createElement('a');
+      a.className = 'link-card';
+      a.href = link.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+
+      // Ícone (Imagem local ou Emoj/Texto)
+      if (link.iconImage) {
+        const img = document.createElement('img');
+        img.src = link.iconImage;
+        img.className = 'link-icon-img';
+        img.alt = link.label;
+        a.appendChild(img);
+      } else if (link.icon) {
+        const span = document.createElement('span');
+        span.className = 'link-icon-txt';
+        span.textContent = link.icon;
+        a.appendChild(span);
+      }
+
+      const label = document.createElement('span');
+      label.textContent = link.label;
+      a.appendChild(label);
+
+      linksDiv.appendChild(a);
+    });
+
+    app.appendChild(linksDiv);
+  }
+
+  renderApp();
+</script>
+</body>
+</html>
